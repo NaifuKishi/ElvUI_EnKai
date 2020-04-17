@@ -1,0 +1,11 @@
+## Interface: 11304
+## Author: Naifu
+## Version: 0.1
+## Title: |cff1784d1ElvUI|r |cff00b3ffEnKai|r
+## Notes: ElvUI EnKai.
+## RequiredDeps: ElvUI
+
+ElvUI_EnKai.lua
+DataTexts\SpellPower.lua
+Modules\AutoDismount.lua
+Modules\TrackingSwitcher.lua
