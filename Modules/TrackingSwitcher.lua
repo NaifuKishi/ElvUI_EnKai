@@ -28,10 +28,22 @@ local trackingIDs = {	minerals = { id = 136025, spellName = "Find Minerals" },
 
 function EK:TimerFeedback()
 
-    local currentTrackingIcon = GetTrackingTexture();
+	if E.db.ElvUI_EnKai.TRACKING1 == "none" and E.db.ElvUI_EnKai.TRACKING2 == "none" then return end
 
-    if UnitAffectingCombat("player") == false then
-        
+    local currentTrackingIcon = GetTrackingTexture();
+	
+	if E.db.ElvUI_EnKai.TRACKING1 == "none" then
+		if trackingIDs[E.db.ElvUI_EnKai.TRACKING2] ~= nil then
+			if trackingIDs[E.db.ElvUI_EnKai.TRACKING2].id == currentTrackingIcon then return end
+		end
+	elseif E.db.ElvUI_EnKai.TRACKING2 == "none" then
+		if trackingIDs[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
+			if trackingIDs[E.db.ElvUI_EnKai.TRACKING1].id == currentTrackingIcon then return end
+		end
+	end
+	
+    if UnitAffectingCombat("player") == false then       	
+		
 		local ChannelName, _ = ChannelInfo();
 		
 		if name == nil then
@@ -40,15 +52,24 @@ function EK:TimerFeedback()
         
 			if CastingName == nil then
 			
-				local nextSpell = "none"
+				local nextSpell = 'none'
 			
-				if currentTrackingIcon ~= trackingIDs[E.db.ElvUI_EnKai.TRACKING1].id then
-					nextSpell = E.db.ElvUI_EnKai.TRACKING1
+				if trackingIDs[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
+				
+					if currentTrackingIcon ~= trackingIDs[E.db.ElvUI_EnKai.TRACKING1].id then
+						nextSpell = E.db.ElvUI_EnKai.TRACKING1
+					else
+						nextSpell = E.db.ElvUI_EnKai.TRACKING2
+					end
 				else
-					nextSpell = E.db.ElvUI_EnKai.TRACKING2
+					if currentTrackingIcon ~= trackingIDs[E.db.ElvUI_EnKai.TRACKING2].id then
+						nextSpell = E.db.ElvUI_EnKai.TRACKING2
+					else
+						nextSpell = E.db.ElvUI_EnKai.TRACKING1
+					end
 				end
 				
-				if nextSpell ~= 'none' then CastSpellByName(trackingIDs[nextSpell].spellName) end		
+				if trackingIDs[nextSpell] then CastSpellByName(trackingIDs[nextSpell].spellName) end
 			end
         end
     end
