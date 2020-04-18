@@ -12,6 +12,14 @@ P["ElvUI_EnKai"] = {
 	["TRACKINGINTERVAL"] = 2,
 	["TRACKINGACTIVE"] = false,
 	["DTSPELLPOWER"] = 7,
+	["RESTOCK"] = false,
+	["RESTOCKERITEM1"] = false,
+	["RESTOCKERITEM1"] = false,
+	["RESTOCKERITEM1"] = false,
+	["RESTOCKERAMOUNT1"] = 10,
+	["RESTOCKERAMOUNT2"] = 10,
+	["RESTOCKERAMOUNT3"] = 10,
+	
 }
 
 local spellPowerList = {["7"] = "Arcane", ["3"] = "Fire", ["5"] = "Frost", ["0"] = "Heal", ["2"] = "Holy", ["4"] = "Nature", ["1"] = "Physical", ["6"] = "Shadow" }
@@ -54,6 +62,74 @@ elseif PLAYER_CLASS == 'HUNTER' then
 						giants = 'Track Giants',
 						humanoids = 'Track Humanoids',
 					}
+end
+
+local restockerArgs = {}
+local restockItems
+
+if PLAYER_CLASS == 'MAGE' then
+
+	restockItems = {17020, 17032, 17031}
+
+	restockerArgs = {
+					type1 = {
+						name = "Arcane Powder",
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = "Amount",
+						desc = "Amount of Arcane Powder to buy",
+						type = "range",
+						order = 2,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+					type2 = {
+						name = "Rune of Portals",
+						type = "toggle",
+						order = 3,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
+					},
+					amount2 = {
+						name = "Amount",
+						desc = "Amount of Rune of Portals to buy",
+						type = "range",
+						order = 4,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
+					},
+					type3 = {
+						name = "Rune of Teleportation",
+						type = "toggle",
+						order = 5,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM3 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM3 = value end,
+					},
+					amount3 = {
+						name = "Amount",
+						desc = "Amount of Rune of Teleportation to buy",
+						type = "range",
+						order = 6,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 = value end,							
+					},
+				}	
+else
+	P["ElvUI_EnKai"]["RESTOCK"] = false
+	restockerArgs = {	info = {
+							order = 1,
+							type = "description",
+							name = "There are no items to restock for this class",
+						}
+					}
+
 end
 
 local _, PLAYER_RACE = UnitRace("player");
@@ -119,7 +195,7 @@ function ElvUI_EnKai:InsertOptions()
 								name = "Tracking interval",
 								desc = "Sets interval to switch",
 								type = "range",
-								min = 2, max = 60,
+								min = 2, max = 60, step = 1,
 								get = function(info, value) return E.db.ElvUI_EnKai.TRACKINGINTERVAL end,
 								set = function(info, value) E.db.ElvUI_EnKai.TRACKINGINTERVAL = value end,							
 							}
@@ -157,13 +233,20 @@ function ElvUI_EnKai:InsertOptions()
 						type = "description",
 						name = "Restocks required reagents",
 					},
-					DismountOption = {
+					enabled = {
 						order = 2,
 						type = "toggle",
 						name = "Restock items",
-						get = function(info) return E.db.ElvUI_EnKai.RestockReagents end,
-						set = function(info, value) E.db.ElvUI_EnKai.RestockReagents = value end,
-					},		
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCK end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCK = value end,
+					},
+					items = {
+						type = 'group',
+						name = 'Class Items',
+						guiInline = true,
+						order = 3,
+						args = restockerArgs,
+					}
 				},
 			},					
 		},
@@ -173,6 +256,7 @@ end
 function ElvUI_EnKai:Initialize()
 	EP:RegisterPlugin(addonName, ElvUI_EnKai.InsertOptions)
 	E.db.ElvUI_EnKai.TRACKINGACTIVE = false;
+	ElvUI_EnKai:Restocker_Init(restockItems)
 end
 
 E:RegisterModule(ElvUI_EnKai:GetName())
