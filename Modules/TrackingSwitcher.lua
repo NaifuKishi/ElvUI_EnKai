@@ -114,7 +114,7 @@ end
 local function ValueColorUpdate(hex, r, g, b)
 	_hex = hex
 	_r, _g, _b = r, g, b
-	if _lastPanel ~= nil then Tracking_OnEvent(_lastPanel) end 
+	if _lastPanel ~= nil then dataText_OnEvent(_lastPanel) end 
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
