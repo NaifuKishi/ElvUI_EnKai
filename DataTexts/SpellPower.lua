@@ -20,7 +20,7 @@ local function onEvent(self, ...)
 	end
 
 	if value ~= nil then
-		self.text:SetFormattedText("%s " .. _hex .. "%s", spellPowerList[tostring(E.db.ElvUI_EnKai.DTSPELLPOWER)], value)
+		self.text:SetFormattedText("%s: " .. _hex .. "%s", spellPowerList[tostring(E.db.ElvUI_EnKai.DTSPELLPOWER)], value)
 	end
 
 	lastPanel = self
