@@ -85,7 +85,7 @@ local function onEvent(self, event, ...)
 
         if (isShapeshiftErrorMessage) then
             if (InCombatLockdown()) then
-                printMsg("Can't remove shapeshift in combat")
+                printMsg(L["Can't remove shapeshift in combat"])
             else
                 if (cancelShapeshiftBuffs()) then
                     UIErrorsFrame:Clear();

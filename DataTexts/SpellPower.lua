@@ -7,7 +7,7 @@ local _G = _G
 local GetSpellBonusDamage = GetSpellBonusDamage
 
 local _hex, _lastPanel, _r, _g, _b ;
-local spellPowerList = {["1"] = "Physical", ["2"] = "Holy", ["3"] = "Fire", ["4"] = "Nature", ["5"] = "Frost", ["6"] = "Shadow", ["7"] = "Arcane", ["0"] = "Heal" }
+local spellPowerList = {["1"] = L["Physical"], ["2"] = L["Holy"], ["3"] = L["Fire"], ["4"] = L["Nature"], ["5"] = L["Frost"], ["6"] = L["Shadow"], ["7"] = L["Arcane"], ["0"] = L["Heal"] }
 
 local function onEvent(self, ...)
 
@@ -58,28 +58,28 @@ local function OnEnter(self, event, ...)
 	local spList = {}
 
 	local _physical = GetSpellBonusDamage(1)
-	if _physical >0 then spList["Physical"] = _physical end
+	if _physical >0 then spList[L["Physical"]] = _physical end
 	
 	local _holy = GetSpellBonusDamage(2)
-	if _holy >0 then spList["Holy"] = _holy end
+	if _holy >0 then spList[L["Holy"]] = _holy end
 	
 	local _fire = GetSpellBonusDamage(3)
-	if _fire >0 then spList["Fire"] = _fire end
+	if _fire >0 then spList[L["Fire"]] = _fire end
 	
 	local _nature = GetSpellBonusDamage(4)
-	if _nature >0 then spList["Nature"] = _nature end
+	if _nature >0 then spList[L["Nature"]] = _nature end
 	
 	local _frost = GetSpellBonusDamage(5)
-	if _frost >0 then spList["Frost"] = _frost end
+	if _frost >0 then spList[L["Frost"]] = _frost end
 	
 	local _shadow = GetSpellBonusDamage(6)
-	if _shadow >0 then spList["Shadow"] = _shadow end
+	if _shadow >0 then spList[L["Shadow"]] = _shadow end
 	
 	local _arcane = GetSpellBonusDamage(7)
-	if _arcane >0 then spList["Arcane"] = _arcane end
+	if _arcane >0 then spList[L["Arcane"]] = _arcane end
 		
 	local _healpwr = GetSpellBonusHealing()
-	if _healpwr >0 then spList["Heal"] = _healpwr end
+	if _healpwr >0 then spList[L["Heal"]] = _healpwr end
 	
 	for slot, value in spairs(spList, function(t,a,b) return t[b] < t[a] end) do
 		DT.tooltip:AddDoubleLine(slot, format("%d", value), 1, 1, 1, r, g, b)

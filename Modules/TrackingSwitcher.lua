@@ -69,7 +69,8 @@ function EK:TimerFeedback()
 					end
 				end
 				
-				if trackingIDs[nextSpell] then CastSpellByName(trackingIDs[nextSpell].spellName) end
+				local spellName = tostring(L[trackingIDs[nextSpell].spellName])
+				if trackingIDs[nextSpell] then CastSpellByName(spellName) end
 			end
         end
     end
@@ -88,9 +89,9 @@ end
 local function dataText_OnEvent (self)
 	
 	if E.db.ElvUI_EnKai.TRACKINGACTIVE == true then
-		self.text:SetFormattedText("Tracking: " .. _hex .. "%s", "active");
+		self.text:SetFormattedText("Tracking: " .. _hex .. "%s", L["active"]);
 	else
-		self.text:SetFormattedText("Tracking: " .. "|cffc74040" .. "%s", "disabled");
+		self.text:SetFormattedText("Tracking: " .. "|cffc74040" .. "%s", L["disabled"]);
 	end
 	
 	_lastPanel = self;

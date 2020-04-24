@@ -7,8 +7,8 @@ local _G = _G
 --Default options
 P["ElvUI_EnKai"] = {
 	["AutoDismount"] = true,
-	["TRACKING1"] = "none",
-	["TRACKING2"] = "none",
+	["TRACKING1"] = L["none"],
+	["TRACKING2"] = L["none"],
 	["TRACKINGINTERVAL"] = 2,
 	["TRACKINGACTIVE"] = false,
 	["DTSPELLPOWER"] = 7,
@@ -24,16 +24,16 @@ P["ElvUI_EnKai"] = {
 	
 }
 
-local spellPowerList = {["7"] = "Arcane", ["3"] = "Fire", ["5"] = "Frost", ["0"] = "Heal", ["2"] = "Holy", ["4"] = "Nature", ["1"] = "Physical", ["6"] = "Shadow" }
+local spellPowerList = {["1"] = L["Physical"], ["2"] = L["Holy"], ["3"] = L["Fire"], ["4"] = L["Nature"], ["5"] = L["Frost"], ["6"] = L["Shadow"], ["7"] = L["Arcane"], ["0"] = L["Heal"] }
 
 local TRACKING_SPELLS = {
-	minerals = 'Find Minerals',
-    herbs = 'Find Herbs',
-	none = 'None';
+	minerals = L['Find Minerals'],
+    herbs = L['Find Herbs'],
+	none = L['None'];
 }
 
-local trackingIDs = {	minerals = { id = 136025, spellName = "Find Minerals" },
-						herbs = { id = 133939, spellName = "Find Herbs" },
+local trackingIDs = {	minerals = { id = 136025, spellName = L['Find Minerals'] },
+						herbs = { id = 133939, spellName = L['Find Herbs'] },
 						hidden = { id = 132320, spellName = "Track Hidden" },
 						beasts = { id = 132328, spellName = "Track Beasts" },
 						dragonkin = { id = 134153, spellName = "Track Dragonkin" },
@@ -49,13 +49,13 @@ local trackingIDs = {	minerals = { id = 136025, spellName = "Find Minerals" },
 local _, PLAYER_CLASS = UnitClass("player");
 
 if PLAYER_CLASS == 'DRUID' then
-    TRACKING_SPELLS = {	minerals = 'Find Minerals',
-						herbs = 'Find Herbs',
+    TRACKING_SPELLS = {	minerals = L['Find Minerals'],
+						herbs = L['Find Herbs'],
 						humanoids_druid = 'Track Humanoids',
 					}
 elseif PLAYER_CLASS == 'HUNTER' then
-    TRACKING_SPELLS = {	minerals = 'Find Minerals',
-						herbs = 'Find Herbs',
+    TRACKING_SPELLS = {	minerals = L['Find Minerals'],
+						herbs = L['Find Herbs'],
 						hidden = 'Track Hidden',
 						beasts = 'Track Beasts',
 						dragonkin = 'Track Dragonkin',
@@ -75,15 +75,15 @@ if PLAYER_CLASS == 'MAGE' then
 
 	restockerArgs = {
 					type1 = {
-						name = "Arcane Powder",
+						name = L["Arcane Powder"],
 						type = "toggle",
 						order = 1,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
 					},
 					amount1 = {
-						name = "Amount",
-						desc = "Amount of Arcane Powder to buy",
+						name = L["Amount"],
+						desc = L["Amount of Arcane Powder to buy"],
 						type = "range",
 						order = 2,
 						min = 1, max = 100, step = 1,
@@ -91,15 +91,15 @@ if PLAYER_CLASS == 'MAGE' then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
 					},
 					type2 = {
-						name = "Rune of Portals",
+						name = L["Rune of Portals"],
 						type = "toggle",
 						order = 3,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
 					},
 					amount2 = {
-						name = "Amount",
-						desc = "Amount of Rune of Portals to buy",
+						name = L["Amount"],
+						desc = L["Amount of Rune of Portals to buy"],
 						type = "range",
 						order = 4,
 						min = 1, max = 100, step = 1,
@@ -107,15 +107,15 @@ if PLAYER_CLASS == 'MAGE' then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
 					},
 					type3 = {
-						name = "Rune of Teleportation",
+						name = L["Rune of Teleportation"],
 						type = "toggle",
 						order = 5,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM3 end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM3 = value end,
 					},
 					amount3 = {
-						name = "Amount",
-						desc = "Amount of Rune of Teleportation to buy",
+						name = L["Amount"],
+						desc = L["Amount of Rune of Teleportation to buy"],
 						type = "range",
 						order = 6,
 						min = 1, max = 100, step = 1,
@@ -136,7 +136,7 @@ elseif PLAYER_CLASS == 'WARRIOR' then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
 					},
 					amount1 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Acurate Slugs to buy",
 						type = "range",
 						order = 2,
@@ -152,7 +152,7 @@ elseif PLAYER_CLASS == 'WARRIOR' then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
 					},
 					amount2 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Jagged Arrows to buy",
 						type = "range",
 						order = 4,
@@ -175,7 +175,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
 					},
 					amount1 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Flash Powder to buy",
 						type = "range",
 						order = 2,
@@ -191,7 +191,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
 					},
 					amount2 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Acurate Slugs to buy",
 						type = "range",
 						order = 4,
@@ -207,7 +207,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM3 = value end,
 					},
 					amount3 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Jagged Arrows to buy",
 						type = "range",
 						order = 6,
@@ -223,7 +223,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM4 = value end,
 					},
 					amount4 = {
-						name = "Amount",
+						name = L["Amount"],
 						desc = "Amount of Wicked Throwing Daggers to buy",
 						type = "range",
 						order = 8,
@@ -238,7 +238,7 @@ else
 	restockerArgs = {	info = {
 							order = 1,
 							type = "description",
-							name = "There are no items to restock for this class",
+							name = L["There are no items to restock for this class"],
 						}
 					}
 
@@ -248,7 +248,7 @@ local _, PLAYER_RACE = UnitRace("player");
 
 if PLAYER_RACE == 'Dwarf' then TRACKING_SPELLS['treasure'] = 'Find Treasure' end
 
-TRACKING_SPELLS['none'] = "None"
+TRACKING_SPELLS['none'] = L["None"]
 
 function EK:InsertOptions()
 	E.Options.args.ElvUI_EnKai = {
@@ -260,34 +260,34 @@ function EK:InsertOptions()
 			tools = {
 				order = 10,
 				type = "group",
-				name = "Tools",
+				name = L["Tools"],
 				args = {
 					usefull = {						
 						type = 'header',
-						name = "Usefull tools",
+						name = L["Usefull tools"],
 						order = 1,
 					},					
 					DismountOption = {
 						order = 2,
 						type = "toggle",
-						name = "Auto dismount",
+						name = L["Auto dismount"],
 						get = function(info) return E.db.ElvUI_EnKai.AutoDismount end,
 						set = function(info, value) E.db.ElvUI_EnKai.AutoDismount = value end,					
 					},
 					TrackingSwitchHeader = {						
 						type = 'header',
-						name = "Tracking Switcher",
+						name = L["Tracking Switcher"],
 						order = 3,
 					},
-					TrackingSwitcher = {					
+					TrackingSwitcher = {
+						name = L["Tracking Switcher"],
 						type = 'group',
-						name = 'Tracking Switcher',
 						guiInline = true,
 						order = 4,
 						args = {
 							type1 = {
-								name = "First Type",
-								desc = "First type to swap between",
+								name = L["First Type"],
+								desc = L["First type to swap between"],
 								type = "select",
 								values = TRACKING_SPELLS,
 								get = function(info)
@@ -296,16 +296,16 @@ function EK:InsertOptions()
 								set = function(info, value) E.db.ElvUI_EnKai.TRACKING1 = value end,
 							},
 							type2 = {
-								name = "Second Type",
-								desc = "Second type to swap between",
+								name = L["Second Type"],
+								desc = L["Second type to swap between"],
 								type = "select",
 								values = TRACKING_SPELLS,
 								get = function(info) return E.db.ElvUI_EnKai.TRACKING2 end,
 								set = function(info, value) E.db.ElvUI_EnKai.TRACKING2 = value end,
 							},
 							interval = {
-								name = "Tracking interval",
-								desc = "Sets interval to switch",
+								name = L["Tracking interval"],
+								desc = L["Sets interval to switch"],
 								type = "range",
 								min = 2, max = 60, step = 1,
 								get = function(info, value) return E.db.ElvUI_EnKai.TRACKINGINTERVAL end,
@@ -321,8 +321,8 @@ function EK:InsertOptions()
 				name = "DataTexts",
 				args = {
 					type1 = {
-								name = "Spell Power",
-								desc = "Type of spell power",
+								name = L["Spell Power"],
+								desc = L["Type of spell power"],
 								type = "select",
 								values = spellPowerList,
 								get = function(info)
@@ -338,23 +338,23 @@ function EK:InsertOptions()
 			restocker = {
 				order = 30,
 				type = "group",
-				name = "Restocker",
+				name = L["Restocker"],
 				args = {
 					info = {
 						order = 1,
 						type = "description",
-						name = "Restocks required reagents",
+						name = L["Restocks required reagents"],
 					},
 					enabled = {
 						order = 2,
 						type = "toggle",
-						name = "Restock items",
+						name = L["Restock items"],
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCK end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCK = value end,
 					},
 					items = {
 						type = 'group',
-						name = 'Class Items',
+						name = L['Class Items'],
 						guiInline = true,
 						order = 3,
 						args = restockerArgs,
