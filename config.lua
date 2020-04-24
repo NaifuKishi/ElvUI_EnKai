@@ -255,7 +255,7 @@ function EK:InsertOptions()
 		order = 100,
 		type = "group",
 		childGroups = "tab",
-		name = "ElvUI EnKai",
+		name = "EnKai",
 		args = {
 			tools = {
 				order = 10,
