@@ -34,16 +34,16 @@ local TRACKING_SPELLS = {
 
 local trackingIDs = {	minerals = { id = 136025, spellName = L['Find Minerals'] },
 						herbs = { id = 133939, spellName = L['Find Herbs'] },
-						hidden = { id = 132320, spellName = "Track Hidden" },
-						beasts = { id = 132328, spellName = "Track Beasts" },
-						dragonkin = { id = 134153, spellName = "Track Dragonkin" },
-						elementals = { id = 135861, spellName = "Track Elementals" },
-						undead = { id = 136142, spellName = "Track Undead" },
-						demons = { id = 136217, spellName = "Track Demons" },
-						giants = { id = 132275, spellName = "Track Giants" },
-						humanoids = { id = 135942, spellName = "Track Humanoids" },
-						humanoids_druid = { id = 132328, spellName = "Track Humanoids" },
-						treasure = { id = 135725, spellName = "Find Treasure" }
+						hidden = { id = 132320, spellName = L["Track Hidden"] },
+						beasts = { id = 132328, spellName = L["Track Beasts"] },
+						dragonkin = { id = 134153, spellName = L["Track Dragonkin"] },
+						elementals = { id = 135861, spellName = L["Track Elementals"] },
+						undead = { id = 136142, spellName = L["Track Undead"] },
+						demons = { id = 136217, spellName = L["Track Demons"] },
+						giants = { id = 132275, spellName = L["Track Giants"] },
+						humanoids = { id = 135942, spellName = L["Track Humanoids"] },
+						humanoids_druid = { id = 132328, spellName = L["Track Humanoids"] },
+						treasure = { id = 135725, spellName = L["Find Treasure"] }
 					}
 
 local _, PLAYER_CLASS = UnitClass("player");
@@ -51,18 +51,18 @@ local _, PLAYER_CLASS = UnitClass("player");
 if PLAYER_CLASS == 'DRUID' then
     TRACKING_SPELLS = {	minerals = L['Find Minerals'],
 						herbs = L['Find Herbs'],
-						humanoids_druid = 'Track Humanoids',
+						humanoids_druid = L['Track Humanoids'],
 					}
 elseif PLAYER_CLASS == 'HUNTER' then
     TRACKING_SPELLS = {	minerals = L['Find Minerals'],
 						herbs = L['Find Herbs'],
-						hidden = 'Track Hidden',
-						beasts = 'Track Beasts',
-						dragonkin = 'Track Dragonkin',
-						elementals = 'Track Elementals',
-						undead = 'Track Undead',
-						giants = 'Track Giants',
-						humanoids = 'Track Humanoids',
+						hidden = L['Track Hidden'],
+						beasts = L['Track Beasts'],
+						dragonkin = L['Track Dragonkin'],
+						elementals = L['Track Elementals'],
+						undead = L['Track Undead'],
+						giants = L['Track Giants'],
+						humanoids = L['Track Humanoids'],
 					}
 end
 
@@ -168,7 +168,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 
 	restockerArgs = {
 					type1 = {
-						name = "Flash Powder",
+						name = L["Flash Powder"],
 						type = "toggle",
 						order = 1,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
@@ -176,7 +176,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 					},
 					amount1 = {
 						name = L["Amount"],
-						desc = "Amount of Flash Powder to buy",
+						desc = L["Amount of Flash Powder to buy"],
 						type = "range",
 						order = 2,
 						min = 1, max = 200, step = 1,
@@ -246,7 +246,7 @@ end
 
 local _, PLAYER_RACE = UnitRace("player");
 
-if PLAYER_RACE == 'Dwarf' then TRACKING_SPELLS['treasure'] = 'Find Treasure' end
+if PLAYER_RACE == 'Dwarf' then TRACKING_SPELLS['treasure'] = L['Find Treasure'] end
 
 TRACKING_SPELLS['none'] = L["None"]
 

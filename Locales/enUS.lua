@@ -53,3 +53,5 @@ L["Track Demons"] = true
 L["Track Giants"] = true
 L["Track Humanoids"] = true
 L["Find Treasure"] = true
+L["Flash Powder"] = true
+L["Amount of Flash Powder to buy"] = true
