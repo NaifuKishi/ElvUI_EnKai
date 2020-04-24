@@ -30,7 +30,6 @@ local function onEvent(self, event, ...)
 		for i = 0, #restockItems, 1 do
 			if E.db.ElvUI_EnKai["RESTOCKERITEM" .. tostring(i)] == true then
 				local itemName, _, _, _, _, _, _, itemStackCount = GetItemInfo(restockItems[i])
-				--if itemInfo then buyTable[itemName] = itemStackCount end
 								
 				local numInBags = GetItemCount(itemName, false)
 				
@@ -39,7 +38,6 @@ local function onEvent(self, event, ...)
 				if numNeeded > 0 then
 					if not buyTable[itemName] then
 						buyTable[itemName] = { needed = numNeeded, itemID = restockItems[i], stackCount = itemStackCount }
-						--buyTable[item.itemName]["itemLink"] = item.itemLink
 					end
 				end
 			end
@@ -75,18 +73,7 @@ function EK:Restocker_Init(classItems)
 
 	frame = CreateFrame('Frame', 'ElvUI_EnKai_AutoDismount_Frame', E.UIParent)
 	frame:SetScript("OnEvent", onEvent);
-	
-	
---events:RegisterEvent("MERCHANT_SHOW");
---events:RegisterEvent("MERCHANT_CLOSED");
---events:RegisterEvent("BANKFRAME_OPENED");
---events:RegisterEvent("BANKFRAME_CLOSED");
---events:RegisterEvent("GET_ITEM_INFO_RECEIVED");
---events:RegisterEvent("PLAYER_LOGOUT");
---events:RegisterEvent("PLAYER_ENTERING_WORLD");
---events:RegisterEvent("UI_ERROR_MESSAGE");
 
-	
 	frame:RegisterEvent("MERCHANT_SHOW")
 
 end
