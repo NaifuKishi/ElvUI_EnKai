@@ -5,11 +5,14 @@ local DT = E:GetModule('DataTexts')
 local addonName, addonTable = ... 
 
 
-if not EnKaiDataPerCharDB then
-	print ('^new savedvariables')
-	EnKaiDataPerCharDB = {}
+--if not EnKaiDataPerCharDB then
+--	EnKaiDataPerCharDB = {}
+--end
+
+if not ElvUI_EnKai_DB then
+	ElvUI_EnKai_DB  = {}
 end
-	
+
 function ElvUI_EnKai:Initialize()
 	EP:RegisterPlugin(addonName, ElvUI_EnKai.InsertOptions)
 	E.db.ElvUI_EnKai.TRACKINGACTIVE = false;
