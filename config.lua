@@ -3,6 +3,7 @@ local E, L, V, P, G, _ =  unpack(ElvUI);
 local EK = E:GetModule('ElvUI_EnKai')
 
 local _G = _G
+local UnitClass = UnitClass
 
 --Default options
 P["ElvUI_EnKai"] = {
@@ -83,7 +84,7 @@ if PLAYER_CLASS == 'MAGE' then
 					},
 					amount1 = {
 						name = L["Amount"],
-						desc = L["Amount of Arcane Powder to buy"],
+						desc = string.format(L["Amount of %s to buy"], L["Arcane Powder"]),
 						type = "range",
 						order = 2,
 						min = 1, max = 100, step = 1,
@@ -99,7 +100,7 @@ if PLAYER_CLASS == 'MAGE' then
 					},
 					amount2 = {
 						name = L["Amount"],
-						desc = L["Amount of Rune of Portals to buy"],
+						desc = string.format(L["Amount of %s to buy"], L["Rune of Portals"]),
 						type = "range",
 						order = 4,
 						min = 1, max = 100, step = 1,
@@ -115,21 +116,21 @@ if PLAYER_CLASS == 'MAGE' then
 					},
 					amount3 = {
 						name = L["Amount"],
-						desc = L["Amount of Rune of Teleportation to buy"],
+						desc = string.format(L["Amount of %s to buy"], L["Rune of Teleportation"]),
 						type = "range",
 						order = 6,
 						min = 1, max = 100, step = 1,
 						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 = value end,							
 					},
-				}	
-elseif PLAYER_CLASS == 'WARRIOR' then
+				}
+elseif PLAYER_CLASS == 'PALADIN' then
 
-	restockItems = {11284, 11285}
+	restockItems = {21177, 17033}
 
 	restockerArgs = {
 					type1 = {
-						name = "Acurate Slugs",
+						name = L["Symbol of Kings"],
 						type = "toggle",
 						order = 1,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
@@ -137,15 +138,15 @@ elseif PLAYER_CLASS == 'WARRIOR' then
 					},
 					amount1 = {
 						name = L["Amount"],
-						desc = "Amount of Acurate Slugs to buy",
+						desc = string.format(L["Amount of %s to buy"], L["Symbol of Kings"]),
 						type = "range",
 						order = 2,
-						min = 1, max = 200, step = 1,
+						min = 1, max = 100, step = 1,
 						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
 					},
 					type2 = {
-						name = "Jagged Arrows",
+						name = L["Symbol of Divinity"],
 						type = "toggle",
 						order = 3,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
@@ -153,7 +154,215 @@ elseif PLAYER_CLASS == 'WARRIOR' then
 					},
 					amount2 = {
 						name = L["Amount"],
-						desc = "Amount of Jagged Arrows to buy",
+						desc = string.format(L["Amount of %s to buy"], L["Symbol of Divinity"]),
+						type = "range",
+						order = 4,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
+					},
+				}
+elseif PLAYER_CLASS == 'SHAMAN' then
+
+	restockItems = {17030}
+
+	restockerArgs = {
+					type1 = {
+						name = L["Ankh"],
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Ankh"]),
+						type = "range",
+						order = 2,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+				}	
+elseif PLAYER_CLASS == 'DRUID' then
+
+	restockItems = {17026, 17038, 17021, 17037}
+
+	restockerArgs = {
+					type1 = {
+						name = L["Wild Thornroot"],
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Wild Thornroot"]),
+						type = "range",
+						order = 2,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+					type2 = {
+						name = L["Ironwood Seed"],
+						type = "toggle",
+						order = 3,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
+					},
+					amount2 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Ironwood Seed"]),
+						type = "range",
+						order = 4,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
+					},
+					type3 = {
+						name = L["Wild Berries"],
+						type = "toggle",
+						order = 5,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM3 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM3 = value end,
+					},
+					amount3 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Wild Berries"]),
+						type = "range",
+						order = 6,
+						min = 1, max = 100, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT3 = value end,							
+					},
+					type4 = {
+						name = L["Hornbeam Seed"],
+						type = "toggle",
+						order = 7,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM4 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM4 = value end,
+					},
+					amount4 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Hornbeam Seed"]),
+						type = "range",
+						order = 8,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT4 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT4 = value end,							
+					},			
+				}	
+elseif PLAYER_CLASS == 'PRIEST' then
+
+	restockItems = {17029, 17028}
+
+	restockerArgs = {
+					type1 = {
+						name = L["Sacred Candle"],
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Sacred Candle"]),
+						type = "range",
+						order = 2,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+					type2 = {
+						name = L["Holy Candle"],
+						type = "toggle",
+						order = 3,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
+					},
+					amount2 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Holy Candle"]),
+						type = "range",
+						order = 4,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
+					},					
+				}				
+	
+elseif PLAYER_CLASS == 'WARLOCK' then
+
+	restockItems = {16583, 5565}
+
+	restockerArgs = {
+					type1 = {
+						name = L["Demonic Figurines"],
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Demonic Figurines"]),
+						type = "range",
+						order = 2,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+					type2 = {
+						name = L["Infernal Stones"],
+						type = "toggle",
+						order = 3,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
+					},
+					amount2 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Infernal Stones"]),
+						type = "range",
+						order = 4,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
+					},					
+				}	
+
+elseif PLAYER_CLASS == 'WARRIOR' then
+
+	restockItems = {11284, 11285}
+
+	restockerArgs = {
+					type1 = {
+						name = L["Acurate Slugs"],
+						type = "toggle",
+						order = 1,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM1 = value end,
+					},
+					amount1 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Acurate Slugs"]),
+						type = "range",
+						order = 2,
+						min = 1, max = 200, step = 1,
+						get = function(info, value) return E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
+					},
+					type2 = {
+						name = L["Jagged Arrows"],
+						type = "toggle",
+						order = 3,
+						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
+						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERITEM2 = value end,
+					},
+					amount2 = {
+						name = L["Amount"],
+						desc = string.format(L["Amount of %s to buy"], L["Jagged Arrows"]),
 						type = "range",
 						order = 4,
 						min = 1, max = 200, step = 1,
@@ -176,7 +385,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 					},
 					amount1 = {
 						name = L["Amount"],
-						desc = L["Amount of Flash Powder to buy"],
+						desc = string.format(L["Amount of %s to buy"], L["Flash Powder"]),
 						type = "range",
 						order = 2,
 						min = 1, max = 200, step = 1,
@@ -184,7 +393,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT1 = value end,							
 					},
 					type2 = {
-						name = "Acurate Slugs",
+						name = L["Acurate Slugs"],
 						type = "toggle",
 						order = 3,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM2 end,
@@ -192,7 +401,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 					},
 					amount2 = {
 						name = L["Amount"],
-						desc = "Amount of Acurate Slugs to buy",
+						desc = string.format(L["Amount of %s to buy"], L["Acurate Slugs"]),
 						type = "range",
 						order = 4,
 						min = 1, max = 200, step = 1,
@@ -200,7 +409,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT2 = value end,							
 					},
 					type3 = {
-						name = "Jagged Arrows",
+						name = L["Jagged Arrows"],
 						type = "toggle",
 						order = 5,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM3 end,
@@ -208,7 +417,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 					},
 					amount3 = {
 						name = L["Amount"],
-						desc = "Amount of Jagged Arrows to buy",
+						desc = string.format(L["Amount of %s to buy"], L["Jagged Arrows"]),
 						type = "range",
 						order = 6,
 						min = 1, max = 200, step = 1,
@@ -216,7 +425,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 						set = function(info, value) E.db.ElvUI_EnKai.RESTOCKERAMOUNT3= value end,							
 					},
 					type4 = {
-						name = "Wicked Throwing Dagger",
+						name = L["Wicked Throwing Dagger"],
 						type = "toggle",
 						order = 7,
 						get = function(info) return E.db.ElvUI_EnKai.RESTOCKERITEM4 end,
@@ -224,7 +433,7 @@ elseif PLAYER_CLASS == "ROGUE" then
 					},
 					amount4 = {
 						name = L["Amount"],
-						desc = "Amount of Wicked Throwing Daggers to buy",
+						desc = string.format(L["Amount of %s to buy"], L["Wicked Throwing Dagger"]),
 						type = "range",
 						order = 8,
 						min = 1, max = 200, step = 1,
