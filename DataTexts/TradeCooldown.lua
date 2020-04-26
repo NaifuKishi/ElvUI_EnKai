@@ -4,14 +4,15 @@ local DT = E:GetModule("DataTexts")
 local EK = E:GetModule("ElvUI_EnKai")
 
 local _G = _G
-local GetSpellBonusDamage = GetSpellBonusDamage
+local GetUnitName = GetUnitName
+local GetTime = GetTime
+local GetSpellCooldown = GetSpellCooldown
+local GetSpellInfo = GetSpellInfo
 
-local _hex, _lastPanel, _r, _g, _b ;
+local hexColor, lastPanel, rColor, gColor, bColor ;
 
 local spellsToTrack = {15846, 17187, 17559, 18560, 17560, 17561, 17562, 17563, 17564, 17565, 17566, 19566}
 local playerName, realm = GetUnitName("player")
-
-local name, _ = UnitName("player");
 
 local function setCooldown(cooldownName, cdTime, duration)
 
@@ -23,7 +24,7 @@ local function setCooldown(cooldownName, cdTime, duration)
 
 end
 
-local function onEvent(self, ...)
+local function dataText_OnEvent(self, ...)
 
 	local text = L["Trade cooldown"]
 	local hasCD = false
@@ -34,9 +35,9 @@ local function onEvent(self, ...)
         if (startTime > (2^31 + 2^30) / 1000) then startTime = startTime - 2^32 / 1000 end
 
         if startTime ~=0 then
-			local name = GetSpellInfo (v)
-            setCooldown(name, startTime, duration)
-			text = string.format("%s: " .. "|cffc74040" .. "%s", name, "CD")
+			local spellName = GetSpellInfo (v)
+            setCooldown(spellName, startTime, duration)
+			text = string.format("%s: " .. "|cffc74040" .. "%s", spellName, "CD")
 			hasCD = true
         end
     end
@@ -68,7 +69,7 @@ local function onEvent(self, ...)
 	
 end
 
-local function OnEnter(self, event, ...)
+local function dataText_OnEnter(self, event, ...)
 
 	DT:SetupTooltip(self)
 
@@ -85,9 +86,9 @@ local function OnEnter(self, event, ...)
 			if v.start then
 				local duration = v.duration or 0
 				local remaining = duration - (GetTime() - v.start)
-				DT.tooltip:AddDoubleLine(k, SecondsToTime(remaining), 1, 1, 1, r, g, b)
+				DT.tooltip:AddDoubleLine(k, SecondsToTime(remaining), 1, 1, 1, rColor, gColor, bColor)
 			else
-				DT.tooltip:AddDoubleLine(k, "ready", 1, 1, 1, r, g, b)
+				DT.tooltip:AddDoubleLine(k, "ready", 1, 1, 1, rColor, gColor, bColor)
 			end
 		end
 		
@@ -98,12 +99,12 @@ local function OnEnter(self, event, ...)
 	
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	_hex = hex
-	_r, _g, _b = r, g, b
-	if _lastPanel ~= nil then onEvent(_lastPanel) end 
+local function valueColorUpdate(hex, r, g, b)
+	hexColor = hex
+	rColor, gColor, bColor = r, g, b
+	if lastPanel ~= nil then dataText_OnEvent(lastPanel) end 
 end
 
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][valueColorUpdate] = true
 
-DT:RegisterDatatext('Trade Cooldown', {"PLAYER_ENTERING_WORLD", "TRADE_SKILL_UPDATE"}, onEvent, nil, nil, OnEnter)
+DT:RegisterDatatext('Trade Cooldown', {"PLAYER_ENTERING_WORLD", "TRADE_SKILL_UPDATE"}, dataText_OnEvent, nil, nil, dataText_OnEnter)

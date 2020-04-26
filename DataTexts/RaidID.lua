@@ -7,16 +7,16 @@ local _G = _G
 local GetNumSavedInstances = GetNumSavedInstances
 local GetSavedInstanceInfo = GetSavedInstanceInfo
 
-local _hex, _lastPanel, _r, _g, _b ;
+local hexColor, lastPanel, rColor, gColor, bColor ;
 
 
-local function onEvent(self, ...)
+local function dataText_OnEvent(self, ...)
 
 	self.text:SetFormattedText("%s", "Raid ID")
 	
 end
 
-local function OnEnter(self, event, ...)
+local function dataText_OnEnter(self, event, ...)
 
 	DT:SetupTooltip(self)
 
@@ -26,19 +26,19 @@ local function OnEnter(self, event, ...)
 	
 	for i = 1, numInstances, 1 do 
 		local name, id, reset, _ = GetSavedInstanceInfo(i)			
-		DT.tooltip:AddDoubleLine(string.format("%s (%s)", name, id), SecondsToTime(reset), 1, 1, 1, r, g, b)
+		DT.tooltip:AddDoubleLine(string.format("%s (%s)", name, id), SecondsToTime(reset), 1, 1, 1, rColor, gColor, bColor)
 	end
 
 	DT.tooltip:Show()
 	
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	_hex = hex
-	_r, _g, _b = r, g, b
-	if _lastPanel ~= nil then onEvent(_lastPanel) end 
+local function valueColorUpdate(hex, r, g, b)
+	hexColor = hex
+	rColor, gColor, bColor = r, g, b
+	if lastPanel ~= nil then dataText_OnEvent(lastPanel) end 
 end
 
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][valueColorUpdate] = true
 
-DT:RegisterDatatext('Raid ID', {"PLAYER_ENTERING_WORLD"}, onEvent, nil, nil, OnEnter)
+DT:RegisterDatatext('Raid ID', {"PLAYER_ENTERING_WORLD"}, dataText_OnEvent, nil, nil, dataText_OnEnter)

@@ -7,16 +7,16 @@ local CancelUnitBuff = CancelUnitBuff
 local Dismount = Dismount
 local InCombatLockdown = InCombatLockdown
 
-local frame
+local autodismountFrame
 
-local UI_ERROR_MESSAGES_FOR_MOUNTED = { 
+local errorMsgMountedList = { 
     ERR_ATTACK_MOUNTED,
     ERR_NOT_WHILE_MOUNTED,
     ERR_TAXIPLAYERALREADYMOUNTED,
     SPELL_FAILED_NOT_MOUNTED
 };
 
-local UI_ERROR_MESSAGES_FOR_SHAPESHIFTED = {
+local errorMsgShapeshiftList = {
     ERR_EMBLEMERROR_NOTABARDGEOSET,
     ERR_CANT_INTERACT_SHAPESHIFTED,
     ERR_MOUNT_SHAPESHIFTED,
@@ -29,25 +29,18 @@ local UI_ERROR_MESSAGES_FOR_SHAPESHIFTED = {
     SPELL_NOT_SHAPESHIFTED_NOSPACE,
 };
 
-local GHOST_WOLF_ID = 2645;
-local DIRE_BEAR_FORM_ID = 9634;
-local TRAVEL_FORM_ID = 783;
-local CAT_FORM_ID = 768;
-local BEAR_FORM_ID = 5487;
-local AQUATIC_FORM_ID = 1066;
-
-local SHAPE_SHIFT_BUFFS = {
-    GHOST_WOLF_ID,
-    DIRE_BEAR_FORM_ID,
-    TRAVEL_FORM_ID,
-    CAT_FORM_ID,
-    BEAR_FORM_ID,
-    AQUATIC_FORM_ID,
+local shapeShiftBuffList = {
+    2645, -- ghost wolf
+    9634, -- dire worlf
+    783, -- travel form
+    768, -- cat form
+    5487, -- bear form
+    1066, -- aquatic form
 };
 
-local function isMountErrorMessage(msg) return tContains(UI_ERROR_MESSAGES_FOR_MOUNTED, msg); end
+local function isMountErrorMessage(errMsg) return tContains(errorMsgMountedList, errMsg) end
 
-local function isShapeshiftErrorMessage(msg) return tContains(UI_ERROR_MESSAGES_FOR_SHAPESHIFTED, msg); end
+local function isShapeshiftErrorMessage(errMsg) return tContains(errorMsgShapeshiftList, errMsg) end
 
 local function cancelShapeshiftBuffs()
     
@@ -55,18 +48,19 @@ local function cancelShapeshiftBuffs()
     
 	for i = 1, 40 do
         local buffId = select(10, UnitBuff("player", i));
-        if (tContains(SHAPE_SHIFT_BUFFS, buffId)) then
+        if (tContains(shapeShiftBuffList, buffId)) then
             removedBuff = true;
             CancelUnitBuff("player", i);
         end
     end
 	
     return removedBuff;
+	
 end
 
-local function printMsg(msg) print("|cff78a1ffElvUI EnKai:|r " .. msg); end
+local function printMsg(msg) print("|cff78a1ffElvUI EnKai:|r " .. msg) end
 
-local function onEvent(self, event, ...)
+local function autodismount_OnEvent(self, event, ...)
 
     local args = {...}
 	
@@ -103,7 +97,7 @@ local function onEvent(self, event, ...)
     end
 end
 
-frame = CreateFrame('Frame', 'ElvUI_EnKai_AutoDismount_Frame', E.UIParent)
-frame:SetScript("OnEvent", onEvent);
-frame:RegisterEvent("UI_ERROR_MESSAGE")
-frame:RegisterEvent("TAXIMAP_OPENED")
+autodismountFrame = CreateFrame('Frame', 'ElvUI_EnKai_AutoDismountFrame', E.UIParent)
+autodismountFrame:SetScript("OnEvent", autodismount_OnEvent);
+autodismountFrame:RegisterEvent("UI_ERROR_MESSAGE")
+autodismountFrame:RegisterEvent("TAXIMAP_OPENED")

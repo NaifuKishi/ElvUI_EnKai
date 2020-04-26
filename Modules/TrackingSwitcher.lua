@@ -10,67 +10,67 @@ local ChannelInfo = ChannelInfo
 local CastingInfo = CastingInfo
 local CastSpellByName = CastSpellByName
 
-local _hex, _lastPanel;
+local hexColor, lastPanel;
 
-local trackingIDs = {	minerals = { id = 136025, spellName = "Find Minerals" },
-						herbs = { id = 133939, spellName = "Find Herbs" },
-						hidden = { id = 132320, spellName = "Track Hidden" },
-						beasts = { id = 132328, spellName = "Track Beasts" },
-						dragonkin = { id = 134153, spellName = "Track Dragonkin" },
-						elementals = { id = 135861, spellName = "Track Elementals" },
-						undead = { id = 136142, spellName = "Track Undead" },
-						demons = { id = 136217, spellName = "Track Demons" },
-						giants = { id = 132275, spellName = "Track Giants" },
-						humanoids = { id = 135942, spellName = "Track Humanoids" },
-						humanoids_druid = { id = 132328, spellName = "Track Humanoids" },
-						treasure = { id = 135725, spellName = "Find Treasure" }
+local trackingSpells = {	minerals = { id = 136025, spellName = "Find Minerals" },
+							herbs = { id = 133939, spellName = "Find Herbs" },
+							hidden = { id = 132320, spellName = "Track Hidden" },
+							beasts = { id = 132328, spellName = "Track Beasts" },
+							dragonkin = { id = 134153, spellName = "Track Dragonkin" },
+							elementals = { id = 135861, spellName = "Track Elementals" },
+							undead = { id = 136142, spellName = "Track Undead" },
+							demons = { id = 136217, spellName = "Track Demons" },
+							giants = { id = 132275, spellName = "Track Giants" },
+							humanoids = { id = 135942, spellName = "Track Humanoids" },
+							humanoids_druid = { id = 132328, spellName = "Track Humanoids" },
+							treasure = { id = 135725, spellName = "Find Treasure" }
 					}
 
-function EK:TimerFeedback()
+function EK:TrackingTimer()
 
 	if E.db.ElvUI_EnKai.TRACKING1 == "none" and E.db.ElvUI_EnKai.TRACKING2 == "none" then return end
 
-    local currentTrackingIcon = GetTrackingTexture();
+    local curTrackingIcon = GetTrackingTexture();
 	
 	if E.db.ElvUI_EnKai.TRACKING1 == "none" then
-		if trackingIDs[E.db.ElvUI_EnKai.TRACKING2] ~= nil then
-			if trackingIDs[E.db.ElvUI_EnKai.TRACKING2].id == currentTrackingIcon then return end
+		if trackingSpells[E.db.ElvUI_EnKai.TRACKING2] ~= nil then
+			if trackingSpells[E.db.ElvUI_EnKai.TRACKING2].id == curTrackingIcon then return end
 		end
 	elseif E.db.ElvUI_EnKai.TRACKING2 == "none" then
-		if trackingIDs[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
-			if trackingIDs[E.db.ElvUI_EnKai.TRACKING1].id == currentTrackingIcon then return end
+		if trackingSpells[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
+			if trackingSpells[E.db.ElvUI_EnKai.TRACKING1].id == curTrackingIcon then return end
 		end
 	end
 	
     if UnitAffectingCombat("player") == false then       	
 		
-		local ChannelName, _ = ChannelInfo();
+		local channelName, _ = ChannelInfo();
 		
-		if name == nil then
+		if channelName == nil then
 		
-			local CastingName, _ = CastingInfo();
+			local castingName, _ = CastingInfo();
         
-			if CastingName == nil then
+			if castingName == nil then
 			
 				local nextSpell = 'none'
 			
-				if trackingIDs[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
+				if trackingSpells[E.db.ElvUI_EnKai.TRACKING1] ~= nil then
 				
-					if currentTrackingIcon ~= trackingIDs[E.db.ElvUI_EnKai.TRACKING1].id then
+					if curTrackingIcon ~= trackingSpells[E.db.ElvUI_EnKai.TRACKING1].id then
 						nextSpell = E.db.ElvUI_EnKai.TRACKING1
 					else
 						nextSpell = E.db.ElvUI_EnKai.TRACKING2
 					end
 				else
-					if currentTrackingIcon ~= trackingIDs[E.db.ElvUI_EnKai.TRACKING2].id then
+					if curTrackingIcon ~= trackingSpells[E.db.ElvUI_EnKai.TRACKING2].id then
 						nextSpell = E.db.ElvUI_EnKai.TRACKING2
 					else
 						nextSpell = E.db.ElvUI_EnKai.TRACKING1
 					end
 				end
 				
-				local spellName = tostring(L[trackingIDs[nextSpell].spellName])
-				if trackingIDs[nextSpell] then CastSpellByName(spellName) end
+				local spellName = tostring(L[trackingSpells[nextSpell].spellName])
+				if trackingSpells[nextSpell] then CastSpellByName(spellName) end
 			end
         end
     end
@@ -89,12 +89,12 @@ end
 local function dataText_OnEvent (self)
 	
 	if E.db.ElvUI_EnKai.TRACKINGACTIVE == true then
-		self.text:SetFormattedText("Tracking: " .. _hex .. "%s", L["active"]);
+		self.text:SetFormattedText("Tracking: " .. hexColor .. "%s", L["active"]);
 	else
 		self.text:SetFormattedText("Tracking: " .. "|cffc74040" .. "%s", L["disabled"]);
 	end
 	
-	_lastPanel = self;
+	lastPanel = self;
 	
 end
 
@@ -104,7 +104,7 @@ local function dataText_OnClick(self)
 		EK:CancelTimer(self.trackingTimer);
 		E.db.ElvUI_EnKai.TRACKINGACTIVE = false;
 	else
-		self.trackingTimer = EK:ScheduleRepeatingTimer('TimerFeedback', getCastInterval());
+		self.trackingTimer = EK:ScheduleRepeatingTimer('TrackingTimer', getCastInterval());
 		E.db.ElvUI_EnKai.TRACKINGACTIVE = true
 	end
 	
@@ -112,11 +112,11 @@ local function dataText_OnClick(self)
 	 
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	_hex = hex
+local function valueColorUpdate(hex, r, g, b)
+	hexColor = hex
 	_r, _g, _b = r, g, b
-	if _lastPanel ~= nil then dataText_OnEvent(_lastPanel) end 
+	if lastPanel ~= nil then dataText_OnEvent(lastPanel) end 
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][valueColorUpdate] = true
 
 DT:RegisterDatatext('Tracking Switcher', {"PLAYER_ENTERING_WORLD"}, dataText_OnEvent, nil, dataText_OnClick, nil)	
