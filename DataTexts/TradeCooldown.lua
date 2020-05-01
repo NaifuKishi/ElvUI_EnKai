@@ -52,14 +52,14 @@ local function dataText_OnEvent(self, ...)
 									
 				if timeleft < 0 then
 					if not hasCD then  
-						text = string.format("%s: " .. _hex .. "%s", k, L["ready"]);
+						text = string.format("%s: " .. hexColor .. "%s", k, L["ready"]);
 						hasCD = true
 					end
 					
 					ElvUI_EnKai_DB[playerName][k] = {}
 				end
 			elseif not hasCD then  
-				text = string.format("%s: " .. _hex .. "%s", k, L["ready"]);
+				text = string.format("%s: " .. hexColor .. "%s", k, L["ready"]);
 				hasCD = true
 			end
 		end
