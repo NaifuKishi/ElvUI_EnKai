@@ -1,5 +1,8 @@
 local E, L, V, P, G, _ =  unpack(ElvUI);
-local DT = E:GetModule('DataTexts')
+
+local EnKai = _G.ElvUI_EnKai
+local EKAD = EnKai:NewModule('EnKai_AutoDismount', 'AceEvent-3.0')
+EnKai.EKAD = EKAD
 
 local _G = _G
 local UnitBuff = UnitBuff
@@ -60,44 +63,45 @@ end
 
 local function printMsg(msg) print("|cff78a1ffElvUI EnKai:|r " .. msg) end
 
-local function autodismount_OnEvent(self, event, ...)
+function EKAD:Dismount (event, ...)
 
-    local args = {...}
-	
 	if E.db.ElvUI_EnKai.AutoDismount == false then return end
 
     if event == "UI_ERROR_MESSAGE" then
 	
-        local msg = args[2];
-        local isMountErrorMessage = isMountErrorMessage(msg);
-        local isShapeshiftErrorMessage = isShapeshiftErrorMessage(msg);
+		local _, msg = ...
+	
+        local isMountErrorMessage = isMountErrorMessage(msg)
+        local isShapeshiftErrorMessage = isShapeshiftErrorMessage(msg)
 
         if (isMountErrorMessage) then
-            UIErrorsFrame:Clear();
-            Dismount();
+            UIErrorsFrame:Clear()
+            Dismount()
         end
 
         if (isShapeshiftErrorMessage) then
             if (InCombatLockdown()) then
                 printMsg(L["Can't remove shapeshift in combat"])
-            else
-                if (cancelShapeshiftBuffs()) then
-                    UIErrorsFrame:Clear();
-                end
-            end
-        end;
-
-        return;
+            elseif (cancelShapeshiftBuffs()) then 
+				UIErrorsFrame:Clear() 
+			end
+        end
+    elseif event == "TAXIMAP_OPENED" then
+        cancelShapeshiftBuffs()
+        Dismount()
     end
-
-    if event == "TAXIMAP_OPENED" then
-        cancelShapeshiftBuffs();
-        Dismount();
-        return;
-    end
+	
 end
 
-autodismountFrame = CreateFrame('Frame', 'ElvUI_EnKai_AutoDismountFrame', E.UIParent)
-autodismountFrame:SetScript("OnEvent", autodismount_OnEvent);
-autodismountFrame:RegisterEvent("UI_ERROR_MESSAGE")
-autodismountFrame:RegisterEvent("TAXIMAP_OPENED")
+function EKAD:Initialize()
+	
+	self:RegisterEvent('UI_ERROR_MESSAGE', 'Dismount')
+	self:RegisterEvent('TAXIMAP_OPENED', 'Dismount')
+
+end
+
+
+-- autodismountFrame = CreateFrame('Frame', 'ElvUI_EnKai_AutoDismountFrame', E.UIParent)
+-- autodismountFrame:SetScript("OnEvent", autodismount_OnEvent);
+-- autodismountFrame:RegisterEvent("UI_ERROR_MESSAGE")
+-- autodismountFrame:RegisterEvent("TAXIMAP_OPENED")
