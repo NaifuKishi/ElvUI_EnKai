@@ -22,7 +22,8 @@ P["ElvUI_EnKai"] = {
 	["RESTOCKERAMOUNT2"] = 10,
 	["RESTOCKERAMOUNT3"] = 10,
 	["RESTOCKERAMOUNT4"] = 10,
-	
+	["MapReveal"] = false,
+	["WatchReputation"] = true,
 }
 
 local spellPowerList = {["1"] = L["Physical"], ["2"] = L["Holy"], ["3"] = L["Fire"], ["4"] = L["Nature"], ["5"] = L["Frost"], ["6"] = L["Shadow"], ["7"] = L["Arcane"], ["0"] = L["Heal"] }
@@ -483,16 +484,33 @@ function EK:InsertOptions()
 						get = function(info) return E.db.ElvUI_EnKai.AutoDismount end,
 						set = function(info, value) E.db.ElvUI_EnKai.AutoDismount = value end,					
 					},
+					MapOption = {
+						order = 3,
+						type = "toggle",
+						name = L["Reveal map"],
+						get = function(info) return E.db.ElvUI_EnKai.MapReveal end,
+						set = function(info, value)
+									E.db.ElvUI_EnKai.MapReveal = value
+									E:StaticPopup_Show('CONFIG_RL')
+								end,
+					},
+					ReputationOption = {
+						order = 4,
+						type = "toggle",
+						name = L["Watch Reputation"],
+						get = function(info) return E.db.ElvUI_EnKai.WatchReputation end,
+						set = function(info, value) E.db.ElvUI_EnKai.WatchReputation = value end,
+					},
 					TrackingSwitchHeader = {						
 						type = 'header',
 						name = L["Tracking Switcher"],
-						order = 3,
+						order = 5,
 					},
 					TrackingSwitcher = {
 						name = L["Tracking Switcher"],
 						type = 'group',
 						guiInline = true,
-						order = 4,
+						order = 6,
 						args = {
 							type1 = {
 								name = L["First Type"],

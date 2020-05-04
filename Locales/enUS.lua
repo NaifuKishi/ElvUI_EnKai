@@ -66,3 +66,4 @@ L["Hornbeam Seed"] = true
 L["Symbol of Kings"] = true
 L["Symbol of Divinity"] = true
 L["Ankh"] = true
+L["Reveal map"] = true

@@ -11,6 +11,8 @@ DataTexts\RaidID.lua
 DataTexts\SpellPower.lua
 DataTexts\TradeCooldown.lua
 Modules\AutoDismount.lua
+Modules\Map.lua
+Modules\Reputation.lua
 Modules\Restocker.lua
 Modules\TrackingSwitcher.lua
 Locales\deDE.lua
